@@ -77,19 +77,24 @@ class NotificationService {
   }
 
   // Envoyer une notification quotidienne
-  public async scheduleDailyNotification(cultureName: string, recommendation: string, language: 'fr' | 'fon' = 'fr') {
+  public async scheduleDailyNotification(cultureName: string, userName: string = '', waterAmount: string = '', language: 'fr' | 'fon' = 'fr') {
     try {
+      // Format du message selon les spécifications : "Bonjour [UserName] 🌱, aujourd'hui vos [CropType] ont besoin de [Amount] L/m². Arrosez ce soir si ce n'est pas encore fait."
+      const formattedMessage = userName
+        ? `Bonjour ${userName} 🌱, aujourd'hui vos ${cultureName} ont besoin de ${waterAmount} L/m². Arrosez ce soir si ce n'est pas encore fait.`
+        : `🌱 Aujourd'hui vos ${cultureName} ont besoin de ${waterAmount} L/m². Arrosez ce soir si ce n'est pas encore fait.`;
+
       await Notifications.scheduleNotificationAsync({
         content: {
           title: t('notifications.quotidien.titre', language),
-          body: `${cultureName}: ${recommendation}`,
+          body: formattedMessage,
           data: { type: 'daily' },
         },
         trigger: {
-          hour: 8,
-          minute: 0,
+          hour: 6,
+          minute: 30,
           repeats: true,
-        },
+        } as any,
       });
     } catch (error) {
       console.error('Erreur lors de la planification de la notification quotidienne:', error);
@@ -112,23 +117,122 @@ class NotificationService {
     }
   }
 
-  // Planifier un rappel d'irrigation
-  public async scheduleIrrigationReminder(cultureName: string, isFirstReminder: boolean, language: 'fr' | 'fon' = 'fr') {
+  // Analyser les conditions météo et envoyer des alertes si nécessaire
+  public async checkAndSendWeatherAlerts(weatherData: any, location: string, userId: string, language: 'fr' | 'fon' = 'fr') {
     try {
-      const trigger = isFirstReminder
-        ? { seconds: 3600 } // 1 heure après la notification quotidienne
-        : { seconds: 21600 }; // 6 heures après si pas encore arrosé
+      // Vérifier si une alerte météo a déjà été envoyée aujourd'hui
+      const hasAlertToday = await this.hasWeatherAlertToday(userId);
+      if (hasAlertToday) {
+        console.log('Alerte météo déjà envoyée aujourd\'hui');
+        return;
+      }
 
+      let alertMessage = '';
+      let shouldSendAlert = false;
+
+      // Alerte pluie
+      if (weatherData.pluie || weatherData.pluiePrevue || (weatherData.nextRainHours && weatherData.nextRainHours.length > 0)) {
+        alertMessage = `Pluie prévue cet après-midi à ${location}. Reportez l'arrosage du soir.`;
+        shouldSendAlert = true;
+      }
+      // Alerte canicule (température > 32°C)
+      else if (weatherData.currentTemperature > 32 || (weatherData.dailyForecast?.maxTemperatures?.[1] > 32)) {
+        alertMessage = `Canicule détectée ! Arrosez tôt le matin pour éviter l'évaporation.`;
+        shouldSendAlert = true;
+      }
+      // Alerte humidité élevée (> 85%)
+      else if (weatherData.currentHumidity > 85) {
+        alertMessage = `Humidité > 85 % prévue demain. Diminuez la quantité d'eau.`;
+        shouldSendAlert = true;
+      }
+      // Alerte vent fort (> 30 km/h)
+      else if (weatherData.windSpeed > 30) {
+        alertMessage = `Vent fort détecté (${Math.round(weatherData.windSpeed)} km/h). Protégez vos cultures fragiles.`;
+        shouldSendAlert = true;
+      }
+
+      if (shouldSendAlert && alertMessage) {
+        await this.sendWeatherAlert(alertMessage, language);
+        await this.markWeatherAlertSent(userId);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la vérification des alertes météo:', error);
+    }
+  }
+
+  // Vérifier si une alerte météo a été envoyée aujourd'hui
+  private async hasWeatherAlertToday(userId: string): Promise<boolean> {
+    try {
+      const userDoc = await getDoc(doc(db, 'users', userId));
+      if (!userDoc.exists()) return false;
+
+      const userData = userDoc.data();
+      const today = new Date().toDateString();
+
+      return userData.lastWeatherAlert?.toDate?.()?.toDateString() === today;
+    } catch (error) {
+      console.error('Erreur lors de la vérification de l\'alerte météo:', error);
+      return false;
+    }
+  }
+
+  // Marquer qu'une alerte météo a été envoyée aujourd'hui
+  private async markWeatherAlertSent(userId: string) {
+    try {
+      await updateDoc(doc(db, 'users', userId), {
+        lastWeatherAlert: new Date(),
+      });
+    } catch (error) {
+      console.error('Erreur lors du marquage de l\'alerte météo:', error);
+    }
+  }
+
+  // Planifier un rappel d'irrigation
+  public async scheduleIrrigationReminder(cultureName: string, userId: string, language: 'fr' | 'fon' = 'fr') {
+    try {
+      // Vérifier d'abord si l'utilisateur a déjà arrosé aujourd'hui
+      const hasIrrigated = await this.hasUserIrrigatedToday(userId, cultureName);
+      if (hasIrrigated) {
+        console.log('Utilisateur a déjà arrosé, pas de rappel nécessaire');
+        return;
+      }
+
+      // Programmer le rappel pour 18h00 (entre 17h30 et 18h30)
       await Notifications.scheduleNotificationAsync({
         content: {
           title: t('notifications.irrigation.titre', language),
           body: t('notifications.irrigation.rappel', language).replace('{culture}', cultureName),
           data: { type: 'irrigation' },
         },
-        trigger,
+        trigger: {
+          hour: 18,
+          minute: 0,
+          repeats: true,
+        } as any,
       });
     } catch (error) {
       console.error('Erreur lors de la planification du rappel d\'irrigation:', error);
+    }
+  }
+
+  // Vérifier si l'utilisateur a arrosé aujourd'hui
+  private async hasUserIrrigatedToday(userId: string, cultureName: string): Promise<boolean> {
+    try {
+      const userDoc = await getDoc(doc(db, 'users', userId));
+      if (!userDoc.exists()) return false;
+
+      const userData = userDoc.data();
+      const today = new Date().toDateString();
+
+      // Vérifier dans l'historique d'irrigation d'aujourd'hui
+      return userData.irrigationHistory?.some((record: any) =>
+        record.date?.toDate?.()?.toDateString() === today &&
+        record.culture === cultureName &&
+        record.completed === true
+      ) || false;
+    } catch (error) {
+      console.error('Erreur lors de la vérification de l\'irrigation:', error);
+      return false;
     }
   }
 
@@ -165,13 +269,13 @@ class NotificationService {
           if (settings.daily && userData.lastRecommendation) {
             await this.scheduleDailyNotification(
               userData.lastRecommendation.cultureName,
-              userData.lastRecommendation.message
+              userData.username || '',
+              userData.lastRecommendation.waterAmount || '2-3'
             );
           }
           
           if (settings.irrigation && userData.lastRecommendation) {
-            await this.scheduleIrrigationReminder(userData.lastRecommendation.cultureName, true);
-            await this.scheduleIrrigationReminder(userData.lastRecommendation.cultureName, false);
+            await this.scheduleIrrigationReminder(userData.lastRecommendation.cultureName, userId);
           }
         }
       }

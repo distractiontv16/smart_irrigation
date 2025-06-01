@@ -135,27 +135,25 @@ export default function RecommendationsScreen() {
         if (userData.notificationSettings?.daily) {
           await notificationService.scheduleDailyNotification(
             culture.name,
-            reco.message,
+            userData.username || '',
+            reco.volume || '2-3',
             userData.language || 'fr'
           );
         }
 
         // Planifier les rappels d'irrigation si activés
         if (userData.notificationSettings?.irrigation) {
-          // Premier rappel après 1 heure
-          await notificationService.scheduleIrrigationReminder(culture.name, true, userData.language || 'fr');
-          // Second rappel après 6 heures
-          await notificationService.scheduleIrrigationReminder(culture.name, false, userData.language || 'fr');
+          await notificationService.scheduleIrrigationReminder(culture.name, currentUser.uid, userData.language || 'fr');
         }
 
         // Envoyer une alerte météo si nécessaire
         if (userData.notificationSettings?.weather) {
-          if (weather.pluie || weather.pluiePrevue) {
-            await notificationService.sendWeatherAlert(
-              t('notifications.meteo.message'),
-              userData.language || 'fr'
-            );
-          }
+          await notificationService.checkAndSendWeatherAlerts(
+            formattedWeather,
+            formattedWeather.locationName || 'votre région',
+            currentUser.uid,
+            userData.language || 'fr'
+          );
         }
         
       } catch (weatherError) {

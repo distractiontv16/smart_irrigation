@@ -486,12 +486,20 @@ export default function SettingsScreen() {
         </Animated.View>
         
         {/* Section Aide */}
-        <Animated.View 
+        <Animated.View
           entering={FadeInDown.delay(600)}
           style={styles.section}
         >
           <Text style={styles.sectionTitle}>Aide</Text>
-          <TouchableOpacity 
+          <TouchableOpacity
+            style={styles.option}
+            onPress={() => router.push('/(auth)/notification-test')}
+          >
+            <Ionicons name="notifications" size={24} color={Colors.primary} />
+            <Text style={[styles.optionText, { color: Colors.primary }]}>🧪 Tester les notifications</Text>
+            <Ionicons name="chevron-forward" size={24} color={Colors.primary} />
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.option}
             onPress={() => setIsReportModalVisible(true)}
           >
