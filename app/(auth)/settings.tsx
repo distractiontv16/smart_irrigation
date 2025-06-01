@@ -64,7 +64,7 @@ export default function SettingsScreen() {
   // Récupérer la version de l'application depuis app.json
   const appVersion = Constants.expoConfig?.version || '1.0.0';
   
-  const languages = ['Français', 'Fon', 'Yoruba', 'Goun'];
+  const languages = ['Français', 'Fon'];
 
   // Charger le mode hors ligne au démarrage
   useEffect(() => {
@@ -121,16 +121,35 @@ export default function SettingsScreen() {
     loadNotificationSettings();
   }, [currentUser]);
 
-  const handleLanguageChange = async (language: string) => {
+  const handleLanguageChange = async (selectedLang: string) => {
     try {
-      const langCode = language === 'Français' ? 'fr' : 'fon';
+      // Déterminer le code de langue
+      const langCode = selectedLang === 'Français' ? 'fr' : 'fon';
+
+      // Vérifier si c'est vraiment un changement
+      if (langCode === language) {
+        console.log('Langue déjà sélectionnée:', langCode);
+        return;
+      }
+
+      console.log('Changement de langue:', language, '->', langCode);
+
+      // Effectuer le changement
       await changeLanguage(langCode);
-      setSelectedLanguage(language);
-      Alert.alert(
-        'Succès',
-        'La langue a été mise à jour avec succès. Les changements seront appliqués immédiatement.'
-      );
+      setSelectedLanguage(selectedLang);
+
+      // Forcer une mise à jour de l'interface
+      setTimeout(() => {
+        Alert.alert(
+          langCode === 'fr' ? 'Succès' : 'Ayibobo',
+          langCode === 'fr'
+            ? 'La langue a été mise à jour avec succès.'
+            : 'Gbè a yi gbè.'
+        );
+      }, 100);
+
     } catch (error) {
+      console.error('Erreur lors du changement de langue:', error);
       Alert.alert('Erreur', 'Impossible de changer la langue. Veuillez réessayer.');
     }
   };
@@ -742,14 +761,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginHorizontal: -4,
+    justifyContent: 'space-between',
   },
   languageButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: Colors.primary,
     margin: 4,
+    minWidth: 80,
+    alignItems: 'center',
+    flex: 1,
+    maxWidth: '45%',
   },
   languageButtonActive: {
     backgroundColor: Colors.primary,
@@ -885,12 +909,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 12,
+    paddingHorizontal: 4,
     borderBottomWidth: 1,
     borderBottomColor: Colors.lightGray,
+    minHeight: 56,
   },
   notificationInfo: {
     flexDirection: 'row',
     alignItems: 'center',
+    flex: 1,
+    marginRight: 12,
   },
 });
 

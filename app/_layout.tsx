@@ -122,13 +122,7 @@ export default function RootLayout() {
                 headerShown: false,
               }}
             />
-            <Stack.Screen
-              name="(auth)/weather"
-              options={{
-                title: "Météo",
-                headerShown: false,
-              }}
-            />
+
             <Stack.Screen
               name="(auth)/conseils-ia"
               options={{

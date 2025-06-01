@@ -211,7 +211,7 @@ export default function CultureManagement({ cultures, onCulturesUpdate }: Cultur
                 <Text style={styles.modalButtonText}>Annuler</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.modalButton, styles.deleteButton]}
+                style={[styles.modalButton, styles.deleteModalButton]}
                 onPress={handleDeleteCulture}
                 disabled={isLoading}
               >
@@ -249,24 +249,30 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
+    flexWrap: 'wrap',
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Montserrat-Bold',
     color: Colors.darkGray,
+    flex: 1,
+    marginRight: 8,
   },
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.primary,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
     borderRadius: 8,
+    minWidth: 90,
+    justifyContent: 'center',
   },
   addButtonText: {
     color: Colors.white,
     marginLeft: 4,
     fontFamily: 'Montserrat-Medium',
+    fontSize: 14,
   },
   culturesList: {
     maxHeight: 300,
@@ -279,9 +285,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGray,
     borderRadius: 8,
     marginBottom: 8,
+    minHeight: 80,
   },
   cultureInfo: {
     flex: 1,
+    marginRight: 12,
   },
   cultureName: {
     fontSize: 16,
@@ -297,6 +305,12 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     padding: 8,
+    backgroundColor: '#FFE5E5',
+    borderRadius: 8,
+    minWidth: 40,
+    minHeight: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   modalContainer: {
     flex: 1,
@@ -348,7 +362,7 @@ const styles = StyleSheet.create({
   saveButton: {
     backgroundColor: Colors.primary,
   },
-  deleteButton: {
+  deleteModalButton: {
     backgroundColor: Colors.error,
   },
   modalButtonText: {
