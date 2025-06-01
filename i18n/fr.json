@@ -1,0 +1,80 @@
+{
+  "alertes_meteo": {
+    "temperature_elevee": "Température élevée demain ({temp}°C), arrosez en fin de journée",
+    "pluie_prevue": "Pluie prévue à {heures}, ajustez votre plan d'irrigation",
+    "vent_fort": "Vent fort ({vitesse} km/h), protégez vos cultures fragiles",
+    "precipitation_probable": "Forte probabilité de précipitation aujourd'hui ({pourcentage}%), reportez l'irrigation",
+    "conditions_normales": "Conditions normales aujourd'hui, suivez le plan d'irrigation recommandé"
+  },
+  "recommandations_irrigation": {
+    "titre": "Recommandations d'Irrigation",
+    "sous_titre": "Recommandations basées sur les conditions météo et vos cultures",
+    "calcul_en_cours": "Calcul des recommandations...",
+    "comprendre_titre": "Comprendre cette recommandation",
+    "comprendre_texte": "Cette recommandation est basée sur la formule d'évapotranspiration de Hargreaves, adaptée au stade de croissance de votre {culture} et au type de sol {sol}.",
+    "aucune_recommandation": "Aucune recommandation disponible",
+    "configurer_cultures": "Configurez vos cultures dans les paramètres",
+    "bonjour_arrosage": "Bonjour/Bonsoir {nom} 😊 Apportez {volume} L/m² à vos {culture} (sol {type_sol}) — soit {volume_total} L au total.",
+    "pas_irrigation": "Pas d'irrigation recommandée aujourd'hui. La pluie suffit.",
+    "apport_volume": "Apportez {volume} L/m² à vos {culture} (sol {type_sol}) — soit {volume_total} L au total.",
+    "arrosez_matin": "Arrosez ce matin avant la pluie.",
+    "cas_normal": "CAS NORMAL – arroser 1 fois par jour (toutes les 24h)"
+  },
+  "contraintes_alertes": {
+    "pluie_actuelle": "Il pleut actuellement. Pas d'irrigation nécessaire.",
+    "humidite_elevee": "Taux d'humidité > 80% ! La quantité d'eau sera la ½ de la normale",
+    "temperature_trop_elevee": "Température trop élevée ! Préférez un arrosage très tôt le matin ou tard le soir.",
+    "pluie_soir_1": "⚠️ Pluie prévue ce soir. Arrosez ce matin avant la pluie.",
+    "pluie_soir_2": "⚠️ Pluie prévue pour demain. Aujourd'hui, arrosez normalement.",
+    "humidite_elevee_2": "Humidité élevée. Pas d'irrigation recommandée.",
+    "pluie_matin": "Il pleut ce matin. Attendez ce soir pour voir l'évolution.",
+    "pluie_soir_3": "Il pleut ce soir. La pluie suffit aujourd'hui.",
+    "pluie_soir_4": "Pluie prévue ce soir. Arrosez le matin si ce n'est pas encore fait.",
+    "temperature_tres_elevee": "Température très élevée. Arrosez tôt le matin ou tard le soir."
+  },
+  "actions_irrigation": {
+    "marquer_arrose": "Marquer comme arrosé",
+    "aucune_action": "Aucune action nécessaire",
+    "arrose_aujourdhui": "Arrosé aujourd'hui",
+    "deja_arrose": "Déjà arrosé",
+    "deja_arrose_culture": "Vous avez déjà arrosé {culture} aujourd'hui.",
+    "irrigation_non_necessaire": "Irrigation non nécessaire",
+    "pas_irrigation_culture": "Pas d'irrigation recommandée aujourd'hui pour {culture}. La pluie ou l'humidité élevée suffit.",
+    "irrigation_enregistree": "Irrigation enregistrée",
+    "action_enregistree": "Votre action d'irrigation a été enregistrée avec succès et ajoutée à votre historique."
+  },
+  "conseils_ia": {
+    "tomates": "Température élevée ({temp}°C) : Pour vos tomates au stade de {stade}, arrosez tôt ce matin ou tard le soir pour éviter l'évaporation et les brûlures.",
+    "laitue": "Température élevée ({temp}°C) : La laitue est sensible au stress thermique à ce stade de {stade}. Créez de l'ombre et arrosez avant 7h ou après 18h.",
+    "mais": "Température élevée ({temp}°C) : Le maïs en {stade} a besoin d'eau supplémentaire. Augmentez le volume d'irrigation de 15%.",
+    "humidite_culture": "Humidité > {humidité}% : Diminuez la quantité d'eau de moitié. Pour vos {culture}, cela prévient les maladies fongiques.",
+    "pluie_culture": "Pluie prévue aujourd'hui ({probabilité}% de probabilité) : Adaptez l'irrigation de vos {culture} en conséquence."
+  },
+  "impact_cultures": {
+    "precipitations_heures": "Les prévisions indiquent des précipitations dans les prochaines heures. Vous pourriez réduire l'irrigation aujourd'hui.",
+    "peu_precipitations": "Peu ou pas de précipitations prévues. Vos cultures pourraient nécessiter une irrigation selon leur calendrier habituel.",
+    "irrigation_non_necessaire_2": "Irrigation probablement non nécessaire aujourd'hui",
+    "suivre_planning": "Suivez votre planning d'irrigation habituel"
+  },
+  "messages_erreur": {
+    "donnees_incompletes": "Données incomplètes",
+    "date_plantation_manquante": "La date de plantation pour {culture} est manquante. Veuillez mettre à jour vos informations de culture.",
+    "type_sol_manquant": "Le type de sol pour {culture} est manquant. Veuillez mettre à jour vos informations de culture.",
+    "superficie_invalide": "La superficie pour {culture} est invalide. Veuillez mettre à jour vos informations de culture.",
+    "donnees_meteo_incompletes": "Données météo incomplètes",
+    "impossible_recommandation": "Impossible de générer une recommandation d'irrigation précise. Les données météo sont incomplètes."
+  },
+  "notifications": {
+    "quotidien": {
+      "titre": "Recommandation d'irrigation"
+    },
+    "meteo": {
+      "titre": "Alerte météo",
+      "message": "Conditions météo défavorables détectées"
+    },
+    "irrigation": {
+      "titre": "Rappel d'irrigation",
+      "rappel": "N'oubliez pas d'arroser vos {culture}"
+    }
+  }
+}

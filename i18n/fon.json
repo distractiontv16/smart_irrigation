@@ -1,0 +1,80 @@
+{
+  "alertes_meteo": {
+    "temperature_elevee": "Xó gbè do {temp}°C so, na sin do gbadanu",
+    "pluie_prevue": "Ji na jo do {heures}, na yi wema sinme ton gbè",
+    "vent_fort": "Johon gàn do {vitesse} km/h, na hwlen nu a kpo do gle me",
+    "precipitation_probable": "Ji na jo do egbe ({pourcentage}%), na gbe sinme do devo",
+    "conditions_normales": "Nu do gbè do egbe, na yi wema sinme ton gbè"
+  },
+  "recommandations_irrigation": {
+    "titre": "Sinme Wema",
+    "sous_titre": "Sinme wema a kpo do xó gbè bo kpo nu a kpo gbè",
+    "calcul_en_cours": "Sinme wema a kpo do gbè...",
+    "comprendre_titre": "Sinme wema a kpo do gbè",
+    "comprendre_texte": "Sinme wema a kpo do gbè nyi do Hargreaves wema a kpo do gbè, a kpo do {culture} nu a kpo do {sol} to gbè.",
+    "aucune_recommandation": "Má kpo sinme wema gbè o",
+    "configurer_cultures": "Na yi wema a kpo do gbè",
+    "bonjour_arrosage": "Ku do/Bonsoir {nom} 😊 Na sin {volume} L/m² do nu a kpo {culture} me (to {type_sol}) — e nyi {volume_total} L gbè.",
+    "pas_irrigation": "Má sin do egbe o. Ji gblè.",
+    "apport_volume": "Na sin {volume} L/m² do nu a kpo {culture} me (to {type_sol}) — e nyi {volume_total} L gbè.",
+    "arrosez_matin": "Na sin do zanzan cobo ji jo.",
+    "cas_normal": "NU GBÈ – na sin dokpo do azan (azan dokpo gbè)"
+  },
+  "contraintes_alertes": {
+    "pluie_actuelle": "Ji do jo zan. Má sin o.",
+    "humidite_elevee": "Sinme > 80% ! Sin ton na nyi adadé gbè ton",
+    "temperature_trop_elevee": "Xó gbè gàn! Na sin do zanzan gàn alo do gbadanu.",
+    "pluie_soir_1": "⚠️ Ji na jo do gbadanu. Na sin do zanzan cobo ji jo.",
+    "pluie_soir_2": "⚠️ Ji na jo do so. Egbe, na sin gbè.",
+    "humidite_elevee_2": "Sinme gàn. Má sin do egbe o.",
+    "pluie_matin": "Ji do jo do zanzan. Na do gbadanu kaka nu na blo.",
+    "pluie_soir_3": "Ji do jo do gbadanu. Ji gblè do egbe.",
+    "pluie_soir_4": "Ji na jo do gbadanu. Na sin do zanzan so a má sin gbè.",
+    "temperature_tres_elevee": "Xó gbè gàn gàn. Na sin do zanzan gàn alo do gbadanu."
+  },
+  "actions_irrigation": {
+    "marquer_arrose": "Tòn bì sín",
+    "aucune_action": "Má blo nu o",
+    "arrose_aujourdhui": "Sín do egbe",
+    "deja_arrose": "Sín gbè",
+    "deja_arrose_culture": "A sín {culture} gbè do egbe.",
+    "irrigation_non_necessaire": "Má sín o",
+    "pas_irrigation_culture": "Má sín do egbe o {culture} nu. Ji alo sinme gàn gblè.",
+    "irrigation_enregistree": "Sinme tòn bì gbè",
+    "action_enregistree": "Nu a sín tòn bì gbè bo kpo do nu a blo gbè me."
+  },
+  "conseils_ia": {
+    "tomates": "Xó gbè ({temp}°C) : {culture} nu a kpo do {stade} me, na sin do zanzan gàn alo do gbadanu kaka nu na xó bo má hwlen.",
+    "laitue": "Xó gbè ({temp}°C) : {culture} nyi wan nu xó gbè do {stade} me. Na hwlen bo sin do 7h alo 18h.",
+    "mais": "Xó gbè ({temp}°C) : {culture} do {stade} me sin wá. Na kpo sin ton do 15%.",
+    "humidite_culture": "Sinme > {humidité}% : Na de sin ton do adadé. {culture} nu a kpo me, e má hwlen azon.",
+    "pluie_culture": "Ji na jo do egbe ({probabilité}% gbè) : Na yi sinme ton do {culture} nu a kpo gbè."
+  },
+  "impact_cultures": {
+    "precipitations_heures": "Wema ka nyi ji na jo do hwedenu. A má sín gàn do egbe.",
+    "peu_precipitations": "Ji má jo gàn. Nu a kpo na sín do azan ton gbè.",
+    "irrigation_non_necessaire_2": "Má sín do egbe o",
+    "suivre_planning": "Na yi wema sinme ton a kpo gbè"
+  },
+  "messages_erreur": {
+    "donnees_incompletes": "Wema má kpo gbè",
+    "date_plantation_manquante": "Azan a kpo {culture} nu má kpo. Na yi wema a kpo gbè.",
+    "type_sol_manquant": "To ton a kpo {culture} nu má kpo. Na yi wema a kpo gbè.",
+    "superficie_invalide": "To gudo a kpo {culture} nu má kpo gbè.",
+    "donnees_meteo_incompletes": "Wema xó má kpo gbè",
+    "impossible_recommandation": "Má sín wema gbè o. Wema xó má kpo gbè."
+  },
+  "notifications": {
+    "quotidien": {
+      "titre": "Tsi wema"
+    },
+    "meteo": {
+      "titre": "Xó wema",
+      "message": "Xó má nyó o"
+    },
+    "irrigation": {
+      "titre": "Tsi xlɛ",
+      "rappel": "Ma yí {culture} tsi xlɛ"
+    }
+  }
+}
